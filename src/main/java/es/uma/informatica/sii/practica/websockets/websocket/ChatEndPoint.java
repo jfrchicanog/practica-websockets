@@ -36,7 +36,7 @@ public class ChatEndPoint {
 
 	@OnClose
 	public void close(Session session, CloseReason reason) { 
-		LOGGER.info("Se acierra conexión de websocket");
+		LOGGER.info("Se cierra conexión de websocket");
 		// TODO
 	}
 	
