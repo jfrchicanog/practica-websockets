@@ -23,13 +23,13 @@ import es.uma.informatica.sii.practica.websockets.websocket.Mensaje.TipoMensaje;
 public class ChatEndPoint {
 	private static final Logger LOGGER = Logger.getLogger(ChatEndPoint.class.getCanonicalName());
 	private static Set<Session> sesiones = Collections.synchronizedSet(new HashSet<>());
-	
+
 	private Session miSesion;
 	private String nombre;
-	
+
 	@OnOpen
 	public void open(Session session,
-	                 EndpointConfig conf) { 
+			EndpointConfig conf) { 
 		// TODO
 		LOGGER.info("Se abre conexión de websocket");
 	}
@@ -39,32 +39,31 @@ public class ChatEndPoint {
 		LOGGER.info("Se cierra conexión de websocket");
 		// TODO
 	}
-	
+
 	@OnError
 	public void error(Session session, Throwable error) {
 		LOGGER.severe(error.getMessage());
 	}
-	
+
 	@OnMessage
 	public void onMessage(Session session, String msg) {
 		LOGGER.info("Llega mensaje del cliente");
-		
+
 		Jsonb jsonb = JsonbBuilder.create();
 		Mensaje mensaje = jsonb.fromJson(msg, Mensaje.class);
-		
-		// TODO:
+
+		// TODO
 	}
-	
+
 	private void notificar(Mensaje mensaje) {
 		try {
 			int count=0;
 			Jsonb jsonb = JsonbBuilder.create();
-			synchronized (sesiones) {
-				for (Session sesion: sesiones) {
-					if (sesion != miSesion) {
-						sesion.getBasicRemote().sendText(jsonb.toJson(mensaje));
-						count++;
-					}
+
+			for (Session sesion: miSesion.getOpenSessions()) {
+				if (sesion != miSesion && sesion.isOpen()) {
+					sesion.getBasicRemote().sendText(jsonb.toJson(mensaje));
+					count++;
 				}
 			}
 			LOGGER.info("Enviado mensaje a "+count+" clientes");
