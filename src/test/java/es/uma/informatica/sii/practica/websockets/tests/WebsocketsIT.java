@@ -21,6 +21,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 public class WebsocketsIT {
+	private static final int WAITING_TIME = 500;
 	private WebDriver driver1;
 	private Map<String, Object> vars1;
 	JavascriptExecutor js1;
@@ -62,7 +63,7 @@ public class WebsocketsIT {
 	public void entrada() throws InterruptedException {
 		entraUsuario(driver1, "francis");
 		entraUsuario(driver2, "manolo");
-		Thread.sleep(1000);
+		Thread.sleep(WAITING_TIME);
 		// 5 | assertText | id=areaChat | >>>>>> Entra manolo
 		assertThat(driver1.findElement(By.id("areaChat")).getText(), is(">>>>>> Entra manolo"));
 	}
@@ -84,9 +85,9 @@ public class WebsocketsIT {
 		entraUsuario(driver1, "francis"); 
 		entraUsuario(driver2, "manolo");
 		mandaMensaje(driver1, "hola");
-		Thread.sleep(500);
+		Thread.sleep(WAITING_TIME);
 		mandaMensaje(driver2, "adios");
-		Thread.sleep(500);
+		Thread.sleep(WAITING_TIME);
 		// 9 | assertText | id=areaChat | >>>>>> Entra manolo\nfrancis: hola\nmanolo: hola\nmanolo: adios
 		assertThat(driver1.findElement(By.id("areaChat")).getText(), is(">>>>>> Entra manolo\nfrancis: hola\nmanolo: adios"));
 	}
@@ -104,7 +105,7 @@ public class WebsocketsIT {
 		entraUsuario(driver1, "francis"); 
 		entraUsuario(driver2, "manolo");
 		mandaMensaje(driver1, "hola");
-		Thread.sleep(500);
+		Thread.sleep(WAITING_TIME);
 		assertThat(driver2.findElement(By.id("areaChat")).getText(), is("francis: hola"));
 	}
 	@Test
@@ -112,7 +113,7 @@ public class WebsocketsIT {
 		entraUsuario(driver1, "francis"); 
 		entraUsuario(driver2, "manolo");
 		driver2.findElement(By.name("salida:botonSalir")).click();
-		Thread.sleep(500);
+		Thread.sleep(WAITING_TIME);
 		// 5 | assertText | id=areaChat | >>>>>> Entra manolo\n<<<<<< Sale manolo
 		assertThat(driver1.findElement(By.id("areaChat")).getText(), is(">>>>>> Entra manolo\n<<<<<< Sale manolo"));
 	}
@@ -129,8 +130,9 @@ public class WebsocketsIT {
 	public void salida3() throws InterruptedException {
 		entraUsuario(driver1, "francis"); 
 		entraUsuario(driver2, "manolo");
+		Thread.sleep(WAITING_TIME);
 		driver2.quit();
-		Thread.sleep(500);
+		Thread.sleep(WAITING_TIME);
 		// 5 | assertText | id=areaChat | >>>>>> Entra manolo\n<<<<<< Sale manolo
 		assertThat(driver1.findElement(By.id("areaChat")).getText(), is(">>>>>> Entra manolo\n<<<<<< Sale manolo"));
 
