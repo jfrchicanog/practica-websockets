@@ -22,7 +22,7 @@ import es.uma.informatica.sii.practica.websockets.websocket.Mensaje.TipoMensaje;
 @ServerEndpoint("/chat")
 public class ChatEndPoint {
 	private static final Logger LOGGER = Logger.getLogger(ChatEndPoint.class.getCanonicalName());
-	private static Set<Session> sesiones = Collections.synchronizedSet(new HashSet<>());
+	//private static Set<Session> sesiones = Collections.synchronizedSet(new HashSet<>());
 
 	private Session miSesion;
 	private String nombre;
